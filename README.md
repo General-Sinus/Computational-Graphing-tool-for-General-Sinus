@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Graphing Tool for General Sinus</title>
+  
 </head>
 <body>
   <h1>Computational & Graphing tool for General Sinus</h1>
