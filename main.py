@@ -1,10 +1,10 @@
 import tkinter as tk
-from turtle import TurtleScreen, RawTurtle
 import math
 import string
+from turtle import TurtleScreen, RawTurtle
+
 
 # Create the main tkinter window
-
 root = tk.Tk()
 root.title("Computational & Graphing tool for General Sinus")
 root.geometry("960x700")
@@ -22,7 +22,7 @@ frame.place(x=0, y=0)
 
 # Create another frame within the main frame
 frame2 = tk.Frame(frame, width=250, height=370)
-frame2.place(x=5, y=50)
+frame2.place(x=5, y=100)
 
 # Create the turtle screen and turtle objects
 screen = TurtleScreen(canvas)
@@ -58,7 +58,7 @@ def select_all():
 
 # Create a "Select All" checkbox
 select_all_checkbox = tk.Checkbutton(frame, text="Select All", variable=select_all_var, command=select_all)
-select_all_checkbox.place(x=10, y=40)
+select_all_checkbox.place(x=10, y=70)
 
 # Function to draw the grid lines along the x-axis
 def grid_x():
@@ -209,29 +209,21 @@ def add_fields():
     points.append(point)
     color_labels.append(color_label)
 
-#Function to draw points
+# Function to draw points
 def draw_points():
-    screen = TurtleScreen(canvas)
-    screen.setworldcoordinates(-2, -2, 2, 2)  # around the unit circle
     screen.tracer(0)
-
-    turtle = RawTurtle(screen)
-    turtle.hideturtle()
-
     selected_points = []
-
-    # Assuming initial point coordinates are (x0, y0)
-
 
     select_all_var.set(1 if all(var.get() == 1 for var in checkbox_vars) else 0)
 
     for checkbox_var, entry1, entry2 in zip(checkbox_vars, entries1, entries2):
         if checkbox_var.get() == 1:
-            x_value = float(entry1.get())
-            y_value = float(entry2.get())
-            selected_points.append((x_value, y_value))
-
-
+            try:
+                x_value = float(entry1.get())
+                y_value = float(entry2.get())
+                selected_points.append((x_value, y_value))
+            except ValueError:
+                print("Invalid input. Please enter numeric values.")
 
     if selected_points:
         grid_x()
@@ -300,9 +292,6 @@ def draw_points():
                     turtle.forward(15)
                     turtle.penup()
 
-
-
-
             turtle.penup()
             turtle.width(1.5)
             turtle.color('black')
@@ -317,7 +306,6 @@ def draw_points():
             turtle.forward(2.5)
             turtle.penup()
             turtle.width(0.2)
-
 
             if len(selected_points) == 1:
                 grid_y()
@@ -379,35 +367,40 @@ def draw_points():
                       "coral", "skyblue", "plum", "wheat", "lightyellow"]
 
             for entry1, name, color in zip(entries1, names, colors):
-                # Calculate the new point coordinates
-                p = int(entry1.get())
-                angle = math.radians(p)  # Convert angle x to radians
-                distance = 1  # Set the distance from the original point
-                x1 = x0 + distance * math.cos(angle)
-                y1 = y0 + distance * math.sin(angle)
-                turtle.color(color)
-                turtle.goto(0, 0)
-                turtle.penup()
-                turtle.goto(x1, y1)  # Set the coordinates where you want to draw the point
-                turtle.pendown()
-                turtle.dot(5)  # Draw a dot with a size of 5 pixels
-                turtle.write(f"Point {name}", align="left", font=("Arial", 8))
-                turtle.penup()
-
+                try:
+                    p = float(entry1.get())  # Convert the entry value to float
+                    angle = math.radians(p)  # Convert angle x to radians
+                    distance = 1  # Set the distance from the original point
+                    x1 = x0 + distance * math.cos(angle)
+                    y1 = y0 + distance * math.sin(angle)
+                    turtle.color(color)
+                    turtle.goto(0, 0)
+                    turtle.penup()
+                    turtle.goto(x1, y1)  # Set the coordinates where you want to draw the point
+                    turtle.pendown()
+                    turtle.dot(5)  # Draw a dot with a size of 5 pixels
+                    turtle.write(f"Point {name}", align="left", font=("Arial", 8))
+                    turtle.penup()
+                except ValueError:
+                    print("Invalid input. Please enter numeric values.")
 
 select_all_var.set(0)
 
 # Function to calculate trigonometric values
 def calcule():
+    entry_sin.delete(0, tk.END)
+    entry_cos.delete(0, tk.END)
+    entry_tan.delete(0, tk.END)
     selected_points = []
-    entry_sin.delete(0, 50)
-    entry_cos.delete(0, 50)
-    entry_tan.delete(0, 50)
+
     for checkbox_var, entry1, entry2 in zip(checkbox_vars, entries1, entries2):
         if checkbox_var.get() == 1:
-            x_value = float(entry1.get())
-            y_value = float(entry2.get())
-            selected_points.append((x_value, y_value))
+            try:
+                x_value = float(entry1.get())
+                y_value = float(entry2.get())
+                selected_points.append((x_value, y_value))
+            except ValueError:
+                print("Invalid input. Please enter numeric values.")
 
     if selected_points:
         print("Selected Points:")
@@ -425,47 +418,44 @@ def calcule():
                 D_xy = x + y
 
             sinxy = (float(math.sin(D_x)) / float(math.sin(D_xy)))
-            entry_sin.insert(0, sinxy)
+            entry_sin.insert(tk.END, sinxy)
             cosxy = (float(math.sin(D_y)) / float(math.sin(D_xy)))
-            entry_cos.insert(0, cosxy)
+            entry_cos.insert(tk.END, cosxy)
             tanxy = (float(math.sin(D_x)) / float(math.sin(D_y)))
-            entry_tan.insert(0, tanxy)
+            entry_tan.insert(tk.END, tanxy)
 
 # Function to clear the result fields
 def clear():
-    entry_sin.delete(0, 50)
-    entry_cos.delete(0, 50)
-    entry_tan.delete(0, 50)
+    entry_sin.delete(0, tk.END)
+    entry_cos.delete(0, tk.END)
+    entry_tan.delete(0, tk.END)
 
 # Create a button to calculate the trigonometric values
-button = tk.Button(master=frame, text="Calculer", width=25, command=calcule)
+button = tk.Button(master=frame, text="Calculate", width=25, command=calcule)
 button.place(x=40, y=490)
 
 # Create labels and entry fields for displaying the trigonometric values
-
-label_sin = tk.Label(master=frame, text="Sin = ", font=("roboto", 11))
+label_sin = tk.Label(master=frame, text="Sin =", font=("Roboto", 11))
 label_sin.place(x=40, y=540)
 
-entry_sin = tk.Entry(master=frame, width=20, font=("roboto", 8))
+entry_sin = tk.Entry(master=frame, width=20, font=("Roboto", 8))
 entry_sin.place(x=90, y=543)
 
-label_cos = tk.Label(master=frame, text="Cos = ", font=("roboto", 11))
+label_cos = tk.Label(master=frame, text="Cos =", font=("Roboto", 11))
 label_cos.place(x=40, y=570)
 
-entry_cos = tk.Entry(master=frame, width=20, font=("roboto", 8))
+entry_cos = tk.Entry(master=frame, width=20, font=("Roboto", 8))
 entry_cos.place(x=90, y=573)
 
-label_tan = tk.Label(master=frame, text="Tan = ", font=("roboto", 11))
+label_tan = tk.Label(master=frame, text="Tan =", font=("Roboto", 11))
 label_tan.place(x=40, y=600)
 
-entry_tan = tk.Entry(master=frame, width=20, font=("roboto", 8))
+entry_tan = tk.Entry(master=frame, width=20, font=("Roboto", 8))
 entry_tan.place(x=90, y=603)
 
-
 # Create the "Clear" button
-add_button = tk.Button(frame, text="Clear", width=25, command=clear)
-add_button.place(x=40, y=640)
-
+clear_button = tk.Button(frame, text="Clear", width=25, command=clear)
+clear_button.place(x=40, y=640)
 
 # Create the "Add" button
 add_button = tk.Button(frame, text="Add", command=add_fields)
@@ -475,14 +465,12 @@ add_button.place(x=10, y=10)
 delete_button = tk.Button(frame, text="Delete Selected", command=delete_selected_fields)
 delete_button.place(x=150, y=10)
 
-
 radio_var = tk.IntVar()
 radio_var.set(1)
-radiobutton_1 = tk.Radiobutton(master=frame, text="Degree", variable=radio_var, value=1, font=("roboto", 10))
-radiobutton_2 = tk.Radiobutton(master=frame, text="Radian", variable=radio_var, value=2, font=("roboto", 10))
-radiobutton_1.place(x=50, y=450)
-radiobutton_2.place(x=130, y=450)
-
+radiobutton_1 = tk.Radiobutton(master=frame, text="Degree", variable=radio_var, value=1, font=("Roboto", 10))
+radiobutton_2 = tk.Radiobutton(master=frame, text="Radian", variable=radio_var, value=2, font=("Roboto", 10))
+radiobutton_1.place(x=50, y=460)
+radiobutton_2.place(x=130, y=460)
 
 draw_button = tk.Button(frame, text="Draw Points", command=draw_points)
 draw_button.place(x=60, y=10)
