@@ -22,7 +22,7 @@ frame.place(x=0, y=0)
 
 # Create another frame within the main frame
 frame2 = tk.Frame(frame, width=250, height=370)
-frame2.place(x=5, y=100)
+frame2.place(x=5, y=50)
 
 # Create the turtle screen and turtle objects
 screen = TurtleScreen(canvas)
@@ -58,7 +58,7 @@ def select_all():
 
 # Create a "Select All" checkbox
 select_all_checkbox = tk.Checkbutton(frame, text="Select All", variable=select_all_var, command=select_all)
-select_all_checkbox.place(x=10, y=70)
+select_all_checkbox.place(x=10, y=40)
 
 # Function to draw the grid lines along the x-axis
 def grid_x():
@@ -94,6 +94,7 @@ def grid_x():
 
 # Function to draw the x-axis line
 def x_axis():
+    turtle.penup()
     turtle.width(1.5)
     turtle.color('black')
     # X Axis Real
@@ -211,7 +212,12 @@ def add_fields():
 
 # Function to draw points
 def draw_points():
+    # calling again the turtle screen and turtle objects for draw x_axis after the grid_y
+    screen = TurtleScreen(canvas)
+    screen.setworldcoordinates(-2, -2, 2, 2) # around the unit circle
     screen.tracer(0)
+    
+    turtle = RawTurtle(screen)
     selected_points = []
 
     select_all_var.set(1 if all(var.get() == 1 for var in checkbox_vars) else 0)
@@ -322,6 +328,7 @@ def draw_points():
                     grid_y()
 
             # Call the drawing functions here
+            turtle.goto(0, 0)
             x_axis()
             turtle.penup()
             turtle.width(0.5)
@@ -332,7 +339,6 @@ def draw_points():
             turtle.penup()
             turtle.forward(1)
             turtle.pendown()
-            turtle.dot(5)
             turtle.home()
             turtle.penup()
 
