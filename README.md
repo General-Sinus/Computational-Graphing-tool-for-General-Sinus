@@ -22,6 +22,9 @@
   <h2>Context of the Project</h2>
   <p>The Graphing Tool for General Sinus is an innovative project that leverages the theory of general systems to develop a powerful computational and graphing tool. This open-source application, built with the tkinter library, aims to provide a comprehensive solution for visualizing and analyzing trigonometric functions on a unit circle. By embracing the principles of General Suins, the project recognizes the interconnectedness of various fields, such as mathematics, physics, engineering, computer graphics, and data analysis, where General Sinus can make a significant impact. The tool's objective is to create a versatile Python library that caters specifically to the General Sinus application, enabling researchers, educators, and practitioners to explore trigonometry concepts and apply them in practical scenarios. With features like interactive GUI, calculation of trigonometric values, and dynamic graph updating, the project fosters interdisciplinary collaboration and facilitates a deeper understanding of theory General Suins in different domains.</p>
   
+   <h2>💻 Screenshots</h2>
+  <img src="Images/Screenshot_1.png" alt="General Sinus Image">
+  
   <h3>Fields of Application</h3>
   <p>The General Sinus project has the potential to contribute to various fields, including but not limited to:</p>
   <ul>
