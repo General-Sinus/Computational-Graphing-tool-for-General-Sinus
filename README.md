@@ -24,6 +24,8 @@
   
    <h2>💻 Screenshots</h2>
   <img src="Images/Screenshot_1.png" alt="General Sinus Image">
+  <img src="Images/Screenshot_2.png" alt="General Sinus Image">
+  <img src="Images/Screenshot_3.png" alt="General Sinus Image">
   
   <h3>Fields of Application</h3>
   <p>The General Sinus project has the potential to contribute to various fields, including but not limited to:</p>
