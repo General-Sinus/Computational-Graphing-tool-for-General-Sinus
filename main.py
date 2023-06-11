@@ -3,7 +3,6 @@ import math
 import string
 from turtle import TurtleScreen, RawTurtle
 
-
 # Create the main tkinter window
 root = tk.Tk()
 root.title("Computational & Graphing tool for General Sinus")
@@ -170,7 +169,6 @@ def add_fields():
               "coral", "skyblue", "plum", "wheat", "lightyellow"]
 
     names = string.ascii_uppercase
-
     checkbox_var = tk.IntVar()
     new_checkbox = tk.Checkbutton(frame2, variable=checkbox_var)
     new_checkbox.place(x=5, y=index * 30)
@@ -341,7 +339,7 @@ def draw_points():
             turtle.pendown()
             turtle.home()
             turtle.penup()
-
+            # Draw Sin axis
             turtle.width(2)
             turtle.penup()
             turtle.color('blue')
@@ -352,7 +350,7 @@ def draw_points():
             turtle.pendown()
             turtle.forward(sinxy)
             turtle.dot(6)
-
+            # Draw Cos axis
             turtle.penup()
             turtle.color('Green')
             turtle.home()
@@ -375,7 +373,10 @@ def draw_points():
             for entry1, name, color in zip(entries1, names, colors):
                 try:
                     p = float(entry1.get())  # Convert the entry value to float
-                    angle = math.radians(p)  # Convert angle x to radians
+                    if radio_var.get() == 1:
+                        angle = math.radians(p)  # Convert angle x to radians                  
+                    if radio_var.get() == 2:
+                        angle = p
                     distance = 1  # Set the distance from the original point
                     x1 = x0 + distance * math.cos(angle)
                     y1 = y0 + distance * math.sin(angle)
